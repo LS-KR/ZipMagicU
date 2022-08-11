@@ -6,7 +6,7 @@ using ICSharpCode.SharpZipLib.Zip;
 
 class MainClass
 {
-    public static void Main(string[] args)
+    unsafe public static void Main(string[] args)
     {
         using (ZipInputStream s = new ZipInputStream(File.OpenRead(args[0])))
         {
@@ -17,12 +17,19 @@ class MainClass
 
             while ((theEntry = s.GetNextEntry()) != null)
             {
+                string rr = null;
                 if (theEntry.IsFile)
+                    rr = "File.";
+                else
+                    rr = "Directory.";
+                Console.WriteLine();
+                Console.WriteLine("-----------------------------------");
+                Console.Write("Is a " + rr + " Show contents (y/n) ?");
+                if (Console.ReadLine().ToLower() == "y")
                 {
-                    Console.Write("Show contents (y/n) ?");
-                    if (Console.ReadLine() == "y")
+                    while (true)
                     {
-                        while (true)
+                        try
                         {
                             size = s.Read(data, 0, data.Length);
                             if (size > 0)
@@ -34,6 +41,7 @@ class MainClass
                                 break;
                             }
                         }
+                        catch { }
                     }
                 }
             }
