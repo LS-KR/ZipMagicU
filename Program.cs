@@ -14,6 +14,7 @@ class MainClass
             ZipEntry theEntry;
             int size = 2048;
             byte[] data = new byte[2048];
+            int i = 0;
 
             while ((theEntry = s.GetNextEntry()) != null)
             {
@@ -29,21 +30,27 @@ class MainClass
                 {
                     while (true)
                     {
-                        try
+                        size = s.Read(data, 0, data.Length);
+                        if (size > 0)
                         {
-                            size = s.Read(data, 0, data.Length);
-                            if (size > 0)
+                            Console.Write(new ASCIIEncoding().GetString(data, 0, size));
+                            Console.Write("\nExtract (y/n) ?");
+                            if (Console.ReadLine().ToLower() == "y")
                             {
-                                Console.Write(new ASCIIEncoding().GetString(data, 0, size));
-                            }
-                            else
-                            {
-                                break;
+                                try
+                                {
+                                    File.WriteAllBytes(rr + "content." + Convert.ToString(i), data);
+                                }
+                                catch { }
                             }
                         }
-                        catch { }
+                        else
+                        {
+                            break;
+                        }
                     }
                 }
+                i++;
             }
         }
         while (true) ;
