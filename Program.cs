@@ -6,8 +6,9 @@ using ICSharpCode.SharpZipLib.Zip;
 
 class MainClass
 {
-    unsafe public static void Main(string[] args)
+    public static void Main(string[] args)
     {
+        if (args.Length == 0) return;
         using (ZipInputStream s = new ZipInputStream(File.OpenRead(args[0])))
         {
 
@@ -15,6 +16,7 @@ class MainClass
             int size = 2048;
             byte[] data = new byte[2048];
             int i = 0;
+            bool isallshow = false;
 
             while ((theEntry = s.GetNextEntry()) != null)
             {
@@ -25,8 +27,11 @@ class MainClass
                     rr = "Directory.";
                 Console.WriteLine();
                 Console.WriteLine("-----------------------------------");
-                Console.Write("Is a " + rr + " Show contents (y/n) ?");
-                if (Console.ReadLine().ToLower() == "y")
+                Console.Write("Is a " + rr + " Show contents?\n[y]es [n]o [a]ll");
+                string inp = Console.ReadLine().ToLower();
+                if ((inp == "a") && (!isallshow))
+                    isallshow = true;
+                if ((inp == "y") || isallshow)
                 {
                     while (true)
                     {
@@ -45,9 +50,7 @@ class MainClass
                             }
                         }
                         else
-                        {
                             break;
-                        }
                     }
                 }
                 i++;
