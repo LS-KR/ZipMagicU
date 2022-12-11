@@ -37,8 +37,15 @@ class MainClass
         {
             ZipEntry list_entry;
             while ((list_entry = s.GetNextEntry()) != null)
+            {
+                if (list_entry.IsFile)
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                else
+                    Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine(list_entry.Name);
+            }
         }
+        Console.ResetColor();
         using (ZipInputStream s = new ZipInputStream(File.OpenRead(fname)))
         {
 
@@ -52,7 +59,7 @@ class MainClass
             {
                 string rr = null;
                 if (theEntry.IsFile)
-                    rr = "File.";
+                    rr = "File.\t";
                 else
                     rr = "Directory.";
                 Console.WriteLine();
