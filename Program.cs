@@ -32,6 +32,13 @@ class MainClass
         }
         else
             fname = args[0];
+        Console.WriteLine("Contents of the zip file:");
+        using (ZipInputStream s = new ZipInputStream(File.OpenRead(fname)))
+        {
+            ZipEntry list_entry;
+            while ((list_entry = s.GetNextEntry()) != null)
+                Console.WriteLine(list_entry.Name);
+        }
         using (ZipInputStream s = new ZipInputStream(File.OpenRead(fname)))
         {
 
@@ -50,7 +57,7 @@ class MainClass
                     rr = "Directory.";
                 Console.WriteLine();
                 Console.WriteLine("-----------------------------------");
-                Console.WriteLine("Is a " + rr + " Show contents?\n[y]es [n]o [b]inary");
+                Console.WriteLine(rr + "\tName: " + theEntry.Name + "\nShow contents?\n[y]es [n]o [b]inary");
                 string inp = Console.ReadLine().ToLower();
                 if ((inp == "y") || isallshow)
                 {
@@ -60,15 +67,6 @@ class MainClass
                         if (size > 0)
                         {
                             Console.Write(new ASCIIEncoding().GetString(data, 0, size));
-                            Console.Write("\nExtract (y/n) ?");
-                            if (Console.ReadLine().ToLower() == "y")
-                            {
-                                try
-                                {
-                                    File.WriteAllBytes(rr + "content." + Convert.ToString(i), data);
-                                }
-                                catch { }
-                            }
                         }
                         else
                             break;
@@ -93,18 +91,9 @@ class MainClass
                                 }
                             }
                             Console.Write(BitConverter.ToString(hexbyte.ToArray()));
-                            for (int k = hexbyte.ToArray().Length * 3; k <= 48; k++) Console.Write(' '); 
-                            ByteToOutputLn(hexbyte.ToArray());
+                            if (hexbyte.Count != 0) for (int k = hexbyte.ToArray().Length * 3; k <= 48; k++) Console.Write(' ');
+                            ByteToOutput(hexbyte.ToArray());
                             hexbyte.Clear();
-                            Console.Write("\nExtract (y/n) ?");
-                            if (Console.ReadLine().ToLower() == "y")
-                            {
-                                try
-                                {
-                                    File.WriteAllBytes(rr + "content." + Convert.ToString(i), data);
-                                }
-                                catch { }
-                            }
                         }
                         else
                             break;
