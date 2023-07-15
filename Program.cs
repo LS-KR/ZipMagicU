@@ -54,6 +54,7 @@ class MainClass
             byte[] data = new byte[2048];
             int i = 0;
             bool isallshow = false;
+            bool isallbinary = false;
 
             while ((theEntry = s.GetNextEntry()) != null)
             {
@@ -64,8 +65,14 @@ class MainClass
                     rr = "Directory.";
                 Console.WriteLine();
                 Console.WriteLine("-----------------------------------");
-                Console.WriteLine(rr + "\tName: " + theEntry.Name + "\nShow contents?\n[y]es [n]o [b]inary");
-                string inp = Console.ReadLine().ToLower();
+                Console.WriteLine(rr + "\tName: " + theEntry.Name + "\nShow contents?\n[y]es [n]o [b]inary [a]ll All_b[i]nary");
+                string inp = "";
+                if ((!isallshow) && (!isallbinary))
+                    inp = Console.ReadLine().ToLower();
+                else 
+                    inp = "";
+                if (inp == "a") isallshow = true;
+                if (inp == "i") isallbinary = true;
                 if ((inp == "y") || isallshow)
                 {
                     while (true)
@@ -79,7 +86,7 @@ class MainClass
                             break;
                     }
                 }
-                if (inp == "b")
+                if (inp == "b" || isallbinary)
                 {
                     while (true)
                     {
