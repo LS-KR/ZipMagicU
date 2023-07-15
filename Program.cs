@@ -65,12 +65,18 @@ class MainClass
                     rr = "Directory.";
                 Console.WriteLine();
                 Console.WriteLine("-----------------------------------");
-                Console.WriteLine(rr + "\tName: " + theEntry.Name + "\nShow contents?\n[y]es [n]o [b]inary [a]ll All_b[i]nary");
+                Console.WriteLine(rr + "\tName: " + theEntry.Name);
                 string inp = "";
                 if ((!isallshow) && (!isallbinary))
+                {
+                    Console.WriteLine("Show contents?\n[y]es [n]o [b]inary [a]ll All_b[i]nary");
                     inp = Console.ReadLine().ToLower();
+                }
                 else 
+                {
                     inp = "";
+                    Console.WriteLine();
+                }
                 if (inp == "a") isallshow = true;
                 if (inp == "i") isallbinary = true;
                 if ((inp == "y") || isallshow)
@@ -116,6 +122,6 @@ class MainClass
                 i++;
             }
         }
-        while (true) ;
+        //while (true) ;
     }
 }
